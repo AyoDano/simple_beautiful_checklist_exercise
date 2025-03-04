@@ -34,9 +34,15 @@ class SharedPreferencesRepository implements DatabaseRepository {
   }
 
   @override
-  Future<void> deleteItem(int index) {
-    // TODO: implement deleteItem
-    throw UnimplementedError();
+  Future<void> deleteItem(int index) async {
+// Zugriff auf SharedPref-Instanz
+    final prefs = await SharedPreferences.getInstance();
+    // Auslesen der bestehenden Liste
+    final tasks = prefs.getStringList(_key) ?? [];
+    // Löschen der Task
+    tasks.removeAt(index);
+    // Liste neu speichern/aktualisieren
+    await prefs.setStringList(_key, tasks);
   }
 
   @override
