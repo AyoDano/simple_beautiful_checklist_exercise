@@ -65,10 +65,14 @@ class SharedPreferencesRepository implements DatabaseRepository {
   }
 
   @override
-  //
-  Future<List<String>> getItems() {
-    // TODO: implement getItems
-    throw UnimplementedError();
+  //Abfragefunktion
+  Future<List<String>> getItems() async {
+// Zugriff auf SharedPref-Instanz
+    final prefs = await SharedPreferences.getInstance();
+// Auslesen der bestehenden Liste
+    final tasks = prefs.getStringList(_key) ?? [];
+// Zurückgeben (ausgeben) der aktuellen Liste
+    return tasks;
   }
 
   @override
