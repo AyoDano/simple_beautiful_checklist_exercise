@@ -22,6 +22,7 @@ class SharedPreferencesRepository implements DatabaseRepository {
 
 // Überschreiben der bestehenden Methoden
   @override
+// Hinzufügefunktion
   Future<void> addItem(String item) async {
 // Zugriff auf SharedPref-Instanz
     final prefs = await SharedPreferences.getInstance();
@@ -34,24 +35,37 @@ class SharedPreferencesRepository implements DatabaseRepository {
   }
 
   @override
+//Löschfunktion
   Future<void> deleteItem(int index) async {
 // Zugriff auf SharedPref-Instanz
     final prefs = await SharedPreferences.getInstance();
-    // Auslesen der bestehenden Liste
+// Auslesen der bestehenden Liste
     final tasks = prefs.getStringList(_key) ?? [];
-    // Löschen der Task
+// Löschen der Task
     tasks.removeAt(index);
-    // Liste neu speichern/aktualisieren
+// Liste neu speichern/aktualisieren
     await prefs.setStringList(_key, tasks);
   }
 
   @override
-  Future<void> editItem(int index, String newItem) {
-    // TODO: implement editItem
-    throw UnimplementedError();
+//Bearbeitefunktion
+  Future<void> editItem(int index, String newItem) async {
+// Zugriff auf SharedPref-Instanz
+    final prefs = await SharedPreferences.getInstance();
+// Auslesen der bestehenden Liste
+    final tasks = prefs.getStringList(_key) ?? [];
+// Bearbeiten der Task
+    if (index >= 0 && index < tasks.length) {
+      tasks[index] = newItem;
+// Liste neu Speichern / aktualisieren
+      await prefs.setStringList(_key, tasks);
+    } else {
+      print("Falscher Index ($index)");
+    }
   }
 
   @override
+  //
   Future<List<String>> getItems() {
     // TODO: implement getItems
     throw UnimplementedError();
