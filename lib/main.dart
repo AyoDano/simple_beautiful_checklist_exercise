@@ -76,8 +76,15 @@ class SharedPreferencesRepository implements DatabaseRepository {
   }
 
   @override
-  // TODO: implement itemCount
-  Future<int> get itemCount => throw UnimplementedError();
+// Anzahlfunktion um gesamtzahl zu ermitteln
+  Future<int> get itemCount async {
+    // Zugriff auf SharedPref-Instanz
+    final prefs = await SharedPreferences.getInstance();
+// Auslesen der bestehenden Liste
+    final tasks = prefs.getStringList(_key) ?? [];
+// Alle inhalte der Liste werden zurückgegeben
+    return tasks.length;
+  }
 }
 
 class MainApp extends StatelessWidget {
